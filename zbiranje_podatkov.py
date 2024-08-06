@@ -1,4 +1,6 @@
 import requests
+import re
+import csv
 
 # URL strani
 url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
@@ -11,11 +13,8 @@ vsebina_strani = html.text
 with open('vsebina_strani.html', 'w', encoding='utf-8') as file:
     file.write(vsebina_strani)
 
-print("HTML vsebina je shranjena v 'vsebina_strani.html'. Preverite strukturo v urejevalniku besedil.")
+print("HTML vsebina je shranjena v 'studentska_dela.html'. Preverite strukturo v urejevalniku besedil.")
 
-import requests
-import re
-import csv
 
 # URL strani
 url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
