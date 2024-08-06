@@ -29,7 +29,7 @@ for služba in službe:
 
     # Preveri, ali so vsi podatki najdeni
     if delo and kraj and plača and opis:
-        data.append([delo.group(1).strip(), kraj.group(1).strip(), plača.group(1).strip(), opis.group(1).strip()])
+        data.append([delo.group(1), kraj.group(1), plača.group(1), opis.group(1)])
 
 # Določi ime CSV datoteke
 csv_file = 'studentska_dela.csv'
