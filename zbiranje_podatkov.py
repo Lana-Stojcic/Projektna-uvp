@@ -12,7 +12,7 @@ vsebina_strani = html.text
 # Regularni izrazi za iskanje potrebnih informacij
 primeri_službe = re.compile(r'<article class="job-item" data-jobid=.*?>(.*?)</div>', re.DOTALL)
 primer_dela = re.compile(r'<h3>(.*?)</h3>', re.DOTALL)
-primer_kraj = re.compile(r'</use></svg> (.*?) </p>', re.DOTALL)
+#primer_kraj = re.compile(r'</use></svg> (.*?) </p>', re.DOTALL)
 #primer_cena = re.compile(r'<strong>.*? €/h neto</strong> (.*? €/h bruto)</a>', re.DOTALL)
 #primer_opisa = re.compile(r'<p class="description text-break">(.*?) </p>', re.DOTALL)
 
@@ -23,13 +23,13 @@ data = []
 # Za vsak oglas pridobi potrebne informacije
 for služba in službe:
     delo = primer_dela.search(služba)
-    kraj = primer_kraj.search(služba)
+    #kraj = primer_kraj.search(služba)
     #plača = primer_cena.search(služba)
     #opis = primer_opisa.search(služba)
 
     # Preveri, ali so vsi podatki najdeni
-    if delo and kraj: #and plača and opis:
-        data.append([delo.group(1), kraj.group(1)])# plača.group(1), opis.group(1)])
+    if delo :#and kraj: #and plača and opis:
+        data.append([delo.group(1)])# kraj.group(1), plača.group(1), opis.group(1)])
 
 # Določi ime CSV datoteke
 csv_file = 'studentska_dela.csv'
