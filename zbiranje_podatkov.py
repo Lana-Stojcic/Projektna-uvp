@@ -23,16 +23,17 @@ službe = primeri_službe.findall(vsebina_strani)
 data = []
 # Za vsak oglas pridobi potrebne informacije
 for služba in službe:
-    delo = primer_dela.search(služba).group(1)
-    kraj = primer_kraj.search(služba).group(1)
-    datum = primer_datum.search(služba).group(1)
-    opis = primer_opisa.search(služba).group(1)
+    delo = primer_dela.search(služba)
+    kraj = primer_kraj.search(služba)
+    datum = primer_datum.search(služba)
+    opis = primer_opisa.search(služba)
 
-    # Dodaj podatke v seznam
-    data.append([delo, kraj, datum, opis])
+    # Preveri, ali so vsi podatki najdeni
+    if delo and kraj and datum and opis:
+        data.append([delo.group(1).strip(), kraj.group(1).strip(), datum.group(1).strip(), opis.group(1).strip()])
 
 # Določi ime CSV datoteke
-csv_file = 'studentska_dela'
+csv_file = 'studentska_dela.csv'
 # Zapiši podatke v CSV datoteko
 with open(csv_file, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
