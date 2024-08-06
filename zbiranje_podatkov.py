@@ -6,40 +6,38 @@ import csv
 url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
 
 # Pošlji GET zahtevo na stran
-response = requests.get(url)
-page_content = response.text
+html = requests.get(url)
+vsebina_strani = html.text
 
 # Regularni izrazi za iskanje potrebnih informacij
-job_pattern = re.compile(r'<div class="job-item">(.*?)</div>', re.DOTALL)
-title_pattern = re.compile(r'<h3>(.*?)</h3>', re.DOTALL)
-location_pattern = re.compile(r'<div class="job-location">(.*?)</div>', re.DOTALL)
-date_pattern = re.compile(r'<div class="job-date">(.*?)</div>', re.DOTALL)
-description_pattern = re.compile(r'<div class="job-description">(.*?)</div>', re.DOTALL)
+primeri_službe = re.compile(r'<article class="job-item" data-jobid=.*?>(.*?)</div>', re.DOTALL)
+primer_dela = re.compile(r'<h3>(.*?)</h3>', re.DOTALL)
+primer_kraj = re.compile(r'<div class="job-location">(.*?)</div>', re.DOTALL)
+primer_datum = re.compile(r'<div class="job-date">(.*?)</div>', re.DOTALL)
+primer_opisa = re.compile(r'<div class="job-description">(.*?)</div>', re.DOTALL)
+
 
 # Najdi vse oglase
-jobs = job_pattern.findall(page_content)
-
+službe = primeri_službe.findall(vsebina_strani)
 # Pripravi seznam za shranjevanje podatkov
 data = []
-
 # Za vsak oglas pridobi potrebne informacije
-for job in jobs:
-    title = title_pattern.search(job).group(1).strip()
-    location = location_pattern.search(job).group(1).strip()
-    date = date_pattern.search(job).group(1).strip()
-    description = description_pattern.search(job).group(1).strip()
-    
+for služba in službe:
+    delo = primer_dela.search(služba).group(1)
+    kraj = primer_kraj.search(služba).group(1)
+    datum = primer_datum.search(služba).group(1)
+    opis = primer_opisa.search(služba).group(1)
+
     # Dodaj podatke v seznam
-    data.append([title, location, date, description])
+    data.append([delo, kraj, datum, opis])
 
 # Določi ime CSV datoteke
-csv_file = 'student_jobs.csv'
-
+csv_file = 'studentska_dela'
 # Zapiši podatke v CSV datoteko
-with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
+with open(csv_file, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     # Zapiši glave stolpcev
-    writer.writerow(['Title', 'Location', 'Date', 'Description'])
+    writer.writerow(['delo', 'kraj', 'datum', 'opis'])
     # Zapiši podatke
     writer.writerows(data)
 
