@@ -10,7 +10,7 @@ html = requests.get(url)
 vsebina_strani = html.text
 
 # Shranimo HTML vsebino v datoteko za pregled
-with open('vsebina_strani.html', 'w', encoding='utf-8') as file:
+with open('dela.html', 'w', encoding='utf-8') as file:
     file.write(vsebina_strani)
 
 # Regularni izrazi za iskanje potrebnih informacij
