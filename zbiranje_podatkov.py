@@ -13,16 +13,6 @@ vsebina_strani = html.text
 with open('vsebina_strani.html', 'w', encoding='utf-8') as file:
     file.write(vsebina_strani)
 
-print("HTML vsebina je shranjena v 'studentska_dela.html'. Preverite strukturo v urejevalniku besedil.")
-
-
-# URL strani
-url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
-
-# Pošlji GET zahtevo na stran
-html = requests.get(url)
-vsebina_strani = html.text
-
 # Regularni izrazi za iskanje potrebnih informacij
 primeri_službe = re.compile(r'<article class="job-item".*?>(.*?)</article>', re.DOTALL)
 primer_dela = re.compile(r'<h3.*?>(.*?)</h3>', re.DOTALL)
@@ -43,7 +33,7 @@ for služba in službe:
 
     # Preveri, ali so vsi podatki najdeni
     if delo and kraj and plača and opis:
-        data.append([delo.group(1).strip(), kraj.group(1).strip(), plača.group(1).strip(), opis.group(1).strip()])
+        data.append([delo, kraj.group(), plača.group(1), opis.group(1)])
 
 # Določi ime CSV datoteke
 csv_file = 'studentska_dela.csv'
