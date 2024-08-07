@@ -65,6 +65,6 @@ with open(csv_file, 'w', newline='', encoding='utf-8') as file:
     writer.writerow(['delo', 'kraj', 'plača', 'opis'])
     # Zapiši podatke
     for oglas_podatki in data:
-        writer.writerow([oglas_podatki['delo'], oglas_podatki['kraj'], oglas_podatki['cena'], oglas_podatki['opis']])
+        writer.writerow([data])
 
 print(f"Podatki so shranjeni v '{csv_file}'.")
