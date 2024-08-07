@@ -25,7 +25,7 @@ oglasi = poisci_vse_oglase(vsebina_strani)
 
 def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
-    primer_plače = r'<strong>(.*?) (.*?) (.*?)</strong>'
+    primer_plače = r'<strong>(.*?)</strong> (.*?)</a>'
     delo = re.search(primer_dela, oglas)
     plača_neto = re.search(primer_plače, oglas)
     if not delo:
