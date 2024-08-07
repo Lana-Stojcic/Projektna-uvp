@@ -25,12 +25,16 @@ oglasi = poisci_vse_oglase(vsebina_strani)
 
 def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
+    primer_plače = r'<strong>(.*?) (.*?) (.*?)</strong>'
     delo = re.search(primer_dela, oglas)
-
+    plača_neto = re.search(primer_plače, oglas)
     if not delo:
+        return None
+    if not plača_neto:
         return None
     return {
         'delo': delo.group(1),
+        'plača': plača_neto.group(1)
     }
 
 def izpisi_podatke(oglasi):
@@ -49,7 +53,7 @@ csv_file = 'studentska_dela.csv'
 
 # Zapiši podatke v CSV datoteko
 with open(csv_file, 'w', newline='', encoding='utf-8') as file:
-    writer = csv.DictWriter(file, fieldnames=['delo'])
+    writer = csv.DictWriter(file, fieldnames=['delo', 'plača'])
     writer.writeheader()
     writer.writerows(data)
 
