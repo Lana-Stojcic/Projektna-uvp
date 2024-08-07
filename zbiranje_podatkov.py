@@ -22,7 +22,7 @@ oglasi = poisci_vse_oglase(vsebina_strani)
 
 def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
-    primer_kraj = r'<use.*?></use>\s*(.*?)\s*</p>'
+    primer_kraj = r'<svg class="ticon text-primary"><use xlink:href=.*?></use></svg> (.*?)</p>'
     primer_cena = r'<strong>(.*?) €/h neto</strong>'
     primer_opisa = r'<p class="description text-break">(.*?)</p>'
 
@@ -31,18 +31,25 @@ def podatki_o_delu(oglas):
     cena = re.search(primer_cena, oglas)
     opis = re.search(primer_opisa, oglas)
 
+    if not delo or not kraj or not cena or not opis:
+        return None
+    if 'PO DOGOVORU' in cena.group(1):
+        cena_value = 'PO DOGOVORU'
+    else:
+        cena_value = cena.group(1)
     return {
         'delo': delo.group(1),
-        'kraj': kraj.group(1) if kraj else 'Ni podatka',
-        'cena': cena.group(1) if cena else 'Ni podatka',
-        'opis': opis.group(1) if opis else 'Ni podatka'
+        'kraj': kraj.group(1),
+        'cena': cena_value,
+        'opis': opis.group(1)
     }
 
 def izpisi_podatke(oglasi):
     data = []
     for oglas in oglasi:
         details = podatki_o_delu(oglas)
-        data.append(details)
+        if details:  # Only add if details is not None
+            data.append(details)
     return data
 
 data = izpisi_podatke(oglasi)
