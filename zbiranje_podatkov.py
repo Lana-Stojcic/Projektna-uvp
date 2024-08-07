@@ -27,17 +27,25 @@ def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
     primer_plače = r'<strong>(.*?)</strong>'
     primer_kraj = r'<svg class="ticon text-primary">.*?</svg>\s*([^<]+)'
+    primer_delovnik = r'<li>Delovnik: <strong><!--sse-->(.*?)<!--/sse--></strong></li>'
     primer_trajanje = r'<li>Trajanje: <strong><!--sse-->(.*?)<!--/sse--></strong></li>'
+    
     delo = re.search(primer_dela, oglas)
     plača_neto = re.search(primer_plače, oglas)
     kraj = re.search(primer_kraj, oglas)
     kraj_olepšan_zapis = re.sub(r'\s+', ' ', kraj.group(1)).strip()
+    delovnik = re.search(primer_delovnik, oglas)
     trajanje = re.search(primer_trajanje, oglas)
 
-    if not delo or not plača_neto or not trajanje or not kraj:
+    if not delo or not plača_neto or not trajanje or not kraj or not delovnik:
         return None
 
-    return {'delo': delo.group(1), 'plača_neto': plača_neto.group(1), 'kraj': kraj_olepšan_zapis, 'trajanje': trajanje.group(1)}
+    return {'delo': delo.group(1), 
+            'plača neto': plača_neto.group(1), 
+            'kraj': kraj_olepšan_zapis, 
+            'delovnik':delovnik.group(1), 
+            'trajanje': trajanje.group(1)
+            }
 
 def izpisi_podatke(oglasi):
     data = []
@@ -55,7 +63,7 @@ csv_file = 'studentska_dela.csv'
 
 # Zapiši podatke v CSV datoteko
 with open(csv_file, 'w', newline='', encoding='utf-8') as file:
-    writer = csv.DictWriter(file, fieldnames=['delo', 'plača_neto', 'kraj','trajanje'])
+    writer = csv.DictWriter(file, fieldnames=['delo', 'plača neto', 'kraj', 'delovnik', 'trajanje'])
     writer.writeheader()
     writer.writerows(data)
 
