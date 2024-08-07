@@ -16,33 +16,37 @@ with open('dela.html', 'w', encoding='utf-8') as file:
     file.write(vsebina_strani)
 ##########################################################################################
 
-def poisci_vse_oglase(vsebina_strani):
-    return re.findall(r'<article class="job-item" data-jobid=.*?>', vsebina_strani, re.DOTALL)
+def poisci_vse_oglase(stran):
+    return re.findall(r'<article class="job-item" data-jobid=.*?>', stran, re.DOTALL)
 oglasi = poisci_vse_oglase(vsebina_strani)
 
-def podatki_iz_oglasov(oglas):
+def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
-    primer_kraj = r'<use.*?></use> (.*?) </p>'
+    primer_kraj = r'<use.*?></use>\s*(.*?)\s*</p>'
     primer_cena = r'<strong>(.*?) €/h neto</strong>'
     primer_opisa = r'<p class="description text-break">(.*?)</p>'
+
     delo = re.search(primer_dela, oglas)
     kraj = re.search(primer_kraj, oglas)
     cena = re.search(primer_cena, oglas)
     opis = re.search(primer_opisa, oglas)
-    if delo == None or kraj == None or cena == None or opis == None:
-        return None
-    if 'PO DOGOVORU' in cena.group(1):
-        cena = 'PO DOGOVORU'
-    else:
-        cena = cena.group(1)
-    return {'delo': delo.group(1), 'kraj':kraj.group(1), 'cena': cena, 'opis':opis.group(1)}
-##########################################################################################
 
-data = []
-for oglas in oglasi:
-    oglas_podatki = podatki_iz_oglasov(oglas)
-    if oglas_podatki is not None:
-        data.append(oglas_podatki)
+    return {
+        'delo': delo.group(1),
+        'kraj': kraj.group(1) if kraj else 'Ni podatka',
+        'cena': cena.group(1) if cena else 'Ni podatka',
+        'opis': opis.group(1) if opis else 'Ni podatka'
+    }
+
+def izpisi_podatke(oglasi):
+    data = []
+    for oglas in oglasi:
+        details = podatki_o_delu(oglas)
+        data.append(details)
+    return data
+
+data = izpisi_podatke(oglasi)
+##########################################################################################
 
 # Določi ime CSV datoteke
 csv_file = 'studentska_dela.csv'
