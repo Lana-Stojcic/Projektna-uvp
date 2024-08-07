@@ -24,14 +24,12 @@ def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
     primer_kraj = r'<svg class="ticon text-primary"><use xlink:href=.*?></use></svg> (.*?)</p>'
     primer_cena = r'<strong>(.*?) €/h neto</strong>'
-    primer_opisa = r'<p class="description text-break">(.*?)</p>'
 
     delo = re.search(primer_dela, oglas)
     kraj = re.search(primer_kraj, oglas)
     cena = re.search(primer_cena, oglas)
-    opis = re.search(primer_opisa, oglas)
 
-    if not delo or not kraj or not cena or not opis:
+    if not delo or not kraj or not cena:
         return None
     if 'PO DOGOVORU' in cena.group(1):
         cena_value = 'PO DOGOVORU'
@@ -41,7 +39,6 @@ def podatki_o_delu(oglas):
         'delo': delo.group(1),
         'kraj': kraj.group(1),
         'cena': cena_value,
-        'opis': opis.group(1)
     }
 
 def izpisi_podatke(oglasi):
@@ -62,9 +59,8 @@ csv_file = 'studentska_dela.csv'
 with open(csv_file, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     # Zapiši glave stolpcev
-    writer.writerow(['delo', 'kraj', 'plača', 'opis'])
+    writer.writerow(['delo', 'kraj', 'plača'])
     # Zapiši podatke
-    for oglas_podatki in data:
-        writer.writerow([data])
+    writer.writerow([data])
 
 print(f"Podatki so shranjeni v '{csv_file}'.")
