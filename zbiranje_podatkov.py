@@ -25,13 +25,16 @@ oglasi = poisci_vse_oglase(vsebina_strani)
 
 def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
-
     delo = re.search(primer_dela, oglas)
 
-    print(f"Processing job ad: {oglas[:100].encode('utf-8', 'replace').decode('utf-8')}...")  # Print first 100 characters of the ad for context
-    print(f"delo: {delo.group(1) if delo else 'None'}")
+    # Uporabite 'encode' in 'decode' za obvladovanje težav z Unicode
+    oglas_prikaz = oglas[:100].encode('utf-8', 'replace').decode('utf-8')
+    delo_prikaz = delo.group(1).encode('utf-8', 'replace').decode('utf-8') if delo else 'None'
 
-    if not delo or not kraj:
+    print(f"Processing job ad: {oglas_prikaz}...")  # Print first 100 characters of the ad for context
+    print(f"delo: {delo_prikaz}")
+
+    if not delo:
         return None
     return {
         'delo': delo.group(1),
@@ -45,7 +48,6 @@ def izpisi_podatke(oglasi):
             data.append(details)
             print(f"Extracted details for {len(data)} job ads")
     return data
-
 data = izpisi_podatke(oglasi)
 ##########################################################################################
 
