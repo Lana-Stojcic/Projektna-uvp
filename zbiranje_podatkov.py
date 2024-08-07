@@ -27,13 +27,6 @@ def podatki_o_delu(oglas):
     primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
     delo = re.search(primer_dela, oglas)
 
-    # Uporabite 'encode' in 'decode' za obvladovanje težav z Unicode
-    oglas_prikaz = oglas[:100].encode('utf-8', 'replace').decode('utf-8')
-    delo_prikaz = delo.group(1).encode('utf-8', 'replace').decode('utf-8') if delo else 'None'
-
-    print(f"Processing job ad: {oglas_prikaz}...")  # Print first 100 characters of the ad for context
-    print(f"delo: {delo_prikaz}")
-
     if not delo:
         return None
     return {
