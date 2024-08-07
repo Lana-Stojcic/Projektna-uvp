@@ -2,51 +2,58 @@ import requests
 import re
 import csv
 
-# URL strani
+# URL studentskih del
 url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
 
-# Pošlji GET zahtevo na stran
-html = requests.get(url)
-vsebina_strani = html.text
+# URL spremenimo v niz
+def url_v_str(url):
+    html = requests.get(url)
+    return html.text
+vsebina_strani = url_v_str(url)
 
-# Shranimo HTML vsebino v datoteko za pregled
+# Funkcija shrani HTML vsebino v 'dela.html'
 with open('dela.html', 'w', encoding='utf-8') as file:
     file.write(vsebina_strani)
+##########################################################################################
 
-# Regularni izrazi za iskanje potrebnih informacij
-primeri_službe = re.compile(r'<article class="job-item".*?>(.*?)</article>', re.DOTALL)
-primer_dela = re.compile(r'<h3.*?>(.*?)</h3>', re.DOTALL)
-primer_kraj = re.compile(r'<use.*?></use> (.*?) </p>', re.DOTALL)
-primer_cena = re.compile(r'<strong>(.*?) €/h neto</strong>', re.DOTALL)
-primer_opisa = re.compile(r'<p class="description text-break">(.*?)</p>', re.DOTALL)
+def poisci_vse_oglase(vsebina_strani):
+    return re.findall(r'<article class="job-item" data-jobid=.*?>', vsebina_strani, re.DOTALL)
+oglasi = poisci_vse_oglase(vsebina_strani)
 
-def izpisi_podatke_iz_oglasov(vsebina_strani):
-# Najdi vse oglase
-    službe = primeri_službe.findall(vsebina_strani)
-# Pripravi seznam za shranjevanje podatkov
-    data = []
-# Za vsak oglas pridobi potrebne informacije
-    for služba in službe:
-        delo = primer_dela.search(služba)
-        kraj = primer_kraj.search(služba)
-        plača = primer_cena.search(služba)
-        opis = primer_opisa.search(služba)
+def podatki_iz_oglasov(oglas):
+    primer_dela = r'<h5 class="mb-0">(.*?)</h5>'
+    primer_kraj = r'<use.*?></use> (.*?) </p>'
+    primer_cena = r'<strong>(.*?) €/h neto</strong>'
+    primer_opisa = r'<p class="description text-break">(.*?)</p>'
+    delo = re.search(primer_dela, oglas)
+    kraj = re.search(primer_kraj, oglas)
+    cena = re.search(primer_cena, oglas)
+    opis = re.search(primer_opisa, oglas)
+    if delo == None or kraj == None or cena == None or opis == None:
+        return None
+    if 'PO DOGOVORU' in cena.group(1):
+        cena = 'PO DOGOVORU'
+    else:
+        cena = cena.group(1)
+    return {'delo': delo.group(1), 'kraj':kraj.group(1), 'cena': cena, 'opis':opis.group(1)}
+##########################################################################################
 
-    # Preveri, ali so vsi podatki najdeni
-        if delo and kraj and plača and opis:
-            data.append([delo.group().strip(), kraj.group().strip(), plača.group().strip(), opis.group().strip()])
-    return data
-
-data = izpisi_podatke_iz_oglasov(vsebina_strani)
+data = []
+for oglas in oglasi:
+    oglas_podatki = podatki_iz_oglasov(oglas)
+    if oglas_podatki is not None:
+        data.append(oglas_podatki)
 
 # Določi ime CSV datoteke
 csv_file = 'studentska_dela.csv'
+
 # Zapiši podatke v CSV datoteko
 with open(csv_file, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     # Zapiši glave stolpcev
     writer.writerow(['delo', 'kraj', 'plača', 'opis'])
     # Zapiši podatke
-    writer.writerows(data)
+    for oglas_podatki in data:
+        writer.writerow([oglas_podatki['delo'], oglas_podatki['kraj'], oglas_podatki['cena'], oglas_podatki['opis']])
 
 print(f"Podatki so shranjeni v '{csv_file}'.")
