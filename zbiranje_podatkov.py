@@ -31,12 +31,13 @@ def podatki_o_delu(oglas):
     delo = re.search(primer_dela, oglas)
     plača_neto = re.search(primer_plače, oglas)
     kraj = re.search(primer_kraj, oglas)
+    kraj_olepšan_zapis = re.sub(r'\s+', ' ', kraj.group(1)).strip()
     trajanje = re.search(primer_trajanje, oglas)
 
     if not delo or not plača_neto or not trajanje or not kraj:
         return None
 
-    return {'delo': delo.group(1), 'plača_neto': plača_neto.group(1), 'kraj': kraj.group(1), 'trajanje': trajanje.group(1)}
+    return {'delo': delo.group(1), 'plača_neto': plača_neto.group(1), 'kraj': kraj_olepšan_zapis, 'trajanje': trajanje.group(1)}
 
 def izpisi_podatke(oglasi):
     data = []
