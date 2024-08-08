@@ -19,7 +19,7 @@ with open('dela.html', 'w', encoding='utf-8') as file:
 
 def poisci_vse_oglase(stran):
     oglasi = re.findall(r'<article class="job-item" data-jobid=.*?>(.*?)</article>', stran, re.DOTALL)
-    print(f"Found {len(oglasi)} job ads")
+    print(f"Najde {len(oglasi)} oglasov")
     return oglasi
 oglasi = poisci_vse_oglase(vsebina_strani)
 
@@ -29,7 +29,7 @@ def podatki_o_delu(oglas):
     primer_kraj = r'<svg class="ticon text-primary">.*?</svg>\s*([^<]+)'
     primer_delovnik = r'<li>Delovnik: <strong><!--sse-->(.*?)<!--/sse--></strong></li>'
     primer_trajanje = r'<li>Trajanje: <strong><!--sse-->(.*?)<!--/sse--></strong></li>'
-    
+
     delo = re.search(primer_dela, oglas)
     plača_neto = re.search(primer_plače, oglas)
     kraj = re.search(primer_kraj, oglas)
@@ -47,21 +47,29 @@ def podatki_o_delu(oglas):
             'trajanje': trajanje.group(1)
             }
 
-def izpisi_podatke(oglasi):
-    data = []
-    for oglas in oglasi:
-        podrobnosti = podatki_o_delu(oglas)
-        if podrobnosti:  # Only add if details is not None
-            data.append(podrobnosti)
-            print(f"Extracted details for {len(data)} job ads")
-    return data
-data = izpisi_podatke(oglasi)
+def izpisi_podatke(url, max_oglasi=2000):
+    stran = 1
+    vsa_data = []
+    while len(vsa_data) < max_oglasi:
+        trenutna_stran = f"{url}?page={stran}"
+        vsebina_strani = url_v_str(trenutna_stran)
+        oglasi = poisci_vse_oglase(vsebina_strani)
+        if not oglasi:
+            break
+        for oglas in oglasi:
+            podrobnosti = podatki_o_delu(oglas)
+            if podrobnosti != None:
+                vsa_data.append(podrobnosti)
+                if len(vsa_data) >= max_oglasi:
+                    break
+        stran += 1
+    return vsa_data
+
+data = izpisi_podatke(url)
 ##########################################################################################
 
-# Določi ime CSV datoteke
 csv_file = 'studentska_dela.csv'
 
-# Zapiši podatke v CSV datoteko
 with open(csv_file, 'w', newline='', encoding='utf-8') as file:
     writer = csv.DictWriter(file, fieldnames=['delo', 'plača neto', 'kraj', 'delovnik', 'trajanje'])
     writer.writeheader()
