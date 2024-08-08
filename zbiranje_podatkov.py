@@ -15,7 +15,6 @@ vsebina_strani = url_v_str(url)
 # Funkcija shrani HTML vsebino v 'dela.html'
 with open('dela.html', 'w', encoding='utf-8') as file:
     file.write(vsebina_strani)
-##########################################################################################
 
 def poisci_vse_oglase(stran):
     oglasi = re.findall(r'<article class="job-item" data-jobid=.*?>(.*?)</article>', stran, re.DOTALL)
@@ -66,8 +65,6 @@ def izpisi_podatke(url, max_oglasi=2000):
     return vsa_data
 
 data = izpisi_podatke(url)
-##########################################################################################
-
 csv_file = 'studentska_dela.csv'
 
 with open(csv_file, 'w', newline='', encoding='utf-8') as file:
