@@ -1,6 +1,7 @@
 import requests
 import re
 import csv
+import pandas as pd
 
 # URL studentskih del
 url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
@@ -18,7 +19,7 @@ with open('dela.html', 'w', encoding='utf-8') as file:
 
 def poisci_vse_oglase(stran):
     oglasi = re.findall(r'<article class="job-item" data-jobid=.*?>(.*?)</article>', stran, re.DOTALL)
-    print(f"Najde {len(oglasi)} oglasov")
+    # print(f"Najde {len(oglasi)} oglasov")
     return oglasi
 oglasi = poisci_vse_oglase(vsebina_strani)
 
