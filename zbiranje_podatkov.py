@@ -33,16 +33,16 @@ def obdelaj_oglase(oglasi, število_oglasov):
                 break
     return obdelani_oglasi
 
-def pridobi_podatke_iz_strani(url, max_oglasi=2000):
+def pridobi_podatke_iz_strani(url, število_oglasov=2000):
     stran = 1
     vsa_data = []
-    while len(vsa_data) < max_oglasi:
+    while len(vsa_data) < število_oglasov:
         trenutna_stran = f"{url}?page={stran}"
         vsebina_strani = url_v_str(trenutna_stran)
         oglasi = poisci_vse_oglase(vsebina_strani)
         if not oglasi:
             break
-        obdelani_oglasi = obdelaj_oglase(oglasi, max_oglasi - len(vsa_data))
+        obdelani_oglasi = obdelaj_oglase(oglasi, število_oglasov - len(vsa_data))
         vsa_data.extend(obdelani_oglasi)
         stran += 1
     return vsa_data
