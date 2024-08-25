@@ -10,9 +10,9 @@ Za delovanje programa naj ima uporabnik naložene knjižnice re, requests, csv, 
 # Kratek opis
 V 'funkcije.py' se nahajajo funkcije, ki iz oglasov poiščejo podatke o vrsti dela, neto plači, kraju, delovniku in trajanju.\
 V 'zbiranje_podatkov.py' imamo 3 funkcije:\
-    *Funkcija 'podatki o delu' vrne slovar, ki izpiše podatke o delu,\
-    *Funkcija 'obdelaj_oglase' pregleda seznam oglasov in iz posameznega oglasa pridobi podrobnosti o delu, ter jih shrani v nov seznam. Postopek se ponavlja, dokler ne obdelamo določenega števila oglasov,\
-    *Funkcija 'pridobi_podatke_iz_strani' pridobiva podatke o oglasih z več strani določenega URL-ja.\
+    1. Funkcija 'podatki o delu' vrne slovar, ki izpiše podatke o delu,\
+    2. Funkcija 'obdelaj_oglase' pregleda seznam oglasov in iz posameznega oglasa pridobi podrobnosti o delu, ter jih shrani v nov seznam. Postopek se ponavlja, dokler ne obdelamo določenega števila oglasov,\
+    3. Funkcija 'pridobi_podatke_iz_strani' pridobiva podatke o oglasih z več strani določenega URL-ja.\
 V 'zapisi_csv.py' funkcija zapise csv s podatki o študentskih delih.\
 Analiza podatkov, pa se nahaja v 'analiza.ipynb'.
 
