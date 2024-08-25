@@ -8,7 +8,6 @@ def url_v_str(url):
 
 def poisci_vse_oglase(stran):
     oglasi = re.findall(r'<article class="job-item" data-jobid=.*?>(.*?)</article>', stran, re.DOTALL)
-    # print(f"Najde {len(oglasi)} oglasov")
     return oglasi
 
 def poisci_delo(oglas):

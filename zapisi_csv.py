@@ -1,6 +1,8 @@
 from zbiranje_podatkov import *
 import csv
 
+url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
+
 data = pridobi_podatke_iz_strani(url)
 csv_file = 'studentska_dela.csv'
 

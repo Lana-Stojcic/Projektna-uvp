@@ -1,13 +1,5 @@
 from funkcije import *
 
-url = 'https://www.studentski-servis.com/studenti/prosta-dela/'
-vsebina_strani = url_v_str(url)
-
-with open('dela.html', 'w', encoding='utf-8') as file:
-    file.write(vsebina_strani)
-
-oglasi = poisci_vse_oglase(vsebina_strani)
-
 def podatki_o_delu(oglas):
     delo = poisci_delo(oglas)
     placa_neto = poisci_placo(oglas)
