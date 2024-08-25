@@ -10,13 +10,13 @@ Za delovanje programa naj ima uporabnik naložene knjižnice re, requests, csv, 
 # Kratek opis
 V 'funkcije.py' se nahajajo funkcije, ki iz oglasov poiščejo podatke o vrsti dela, neto plači, kraju, delovniku in trajanju.\
 V 'zbiranje_podatkov.py' imamo 3 funkcije:\
-    -I Funkcija 'podatki o delu' vrne slovar, ki izpiše podatke o delu,\
-    -I Funkcija 'obdelaj_oglase' pregleda seznam oglasov in iz posameznega oglasa pridobi podrobnosti o delu, ter jih shrani v nov seznam. Postopek se ponavlja, dokler ne obdelamo določenega števila oglasov,\
-    -I Funkcija 'pridobi_podatke_iz_strani' pridobiva podatke o oglasih z več strani določenega URL-ja.\
-V 'zapisi_csv.py' funkcija zapise csv s podatki o študentskih delih.
+    *Funkcija 'podatki o delu' vrne slovar, ki izpiše podatke o delu,\
+    *Funkcija 'obdelaj_oglase' pregleda seznam oglasov in iz posameznega oglasa pridobi podrobnosti o delu, ter jih shrani v nov seznam. Postopek se ponavlja, dokler ne obdelamo določenega števila oglasov,\
+    *Funkcija 'pridobi_podatke_iz_strani' pridobiva podatke o oglasih z več strani določenega URL-ja.\
+V 'zapisi_csv.py' funkcija zapise csv s podatki o študentskih delih.\
 Analiza podatkov, pa se nahaja v 'analiza.ipynb'.
 
 # Opomba
-Analiza del prikazuje podatke o oglasih, ki so bili objavljeni na študentskem servisu dne 25. 08. 2024.\ 
-Ker je skoraj vsak dan dodan nov oglas, ali pa je kateri odstranjen, so podatki uporabljeni v analizi zastareli.\
-Če jih želimo posodobiti, moramo najprej pognati 'zapisi_csv.py' in nato še 'analiza.ipynb'.\
+Analiza del prikazuje podatke o oglasih, ki so bili objavljeni na študentskem servisu dne 25. 08. 2024.
+Ker je skoraj vsak dan dodan nov oglas, ali pa je kateri odstranjen, so podatki uporabljeni v analizi zastareli.
+Če jih želimo posodobiti, moramo najprej pognati 'zapisi_csv.py' in nato še 'analiza.ipynb'.
