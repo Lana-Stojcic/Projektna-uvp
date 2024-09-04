@@ -2,8 +2,7 @@
 Avtorica: Lana Stojčić
 
 # Uvod
-Za projektno nalogo sem analizirala podatke s spletne strani študentskega servisa o prostih delih (https://www.studentski-servis.com/studenti/prosta-dela/).\
-Osredotočila sem se le na 2000 prostih del, zanimali pa so me predvsem podatki o neto plači, kraju, delovniku, trajanju in vrsti deli.
+Za projektno nalogo sem analizirala podatke s spletne strani študentskega servisa o prostih delih (https://www.studentski-servis.com/studenti/prosta-dela/). Osredotočila sem se le na 2000 prostih del, zanimali pa so me predvsem podatki o neto plači, kraju, delovniku, trajanju in vrsti deli.
 
 # Navodila
 Za delovanje programa naj ima uporabnik naložene knjižnice re, requests, csv, pandas in matplotlib.pyplot.
